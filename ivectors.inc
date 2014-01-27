@@ -11,6 +11,8 @@
 
 
 ; ***** INTERRUPT VECTORS ************************************************
+; Используем HAL Микроконтроллера "ATtiny85"
+
 		.ORG	INT0addr	; External Interrupt 0
 		RETI
 		.ORG	PCI0addr	; Pin change Interrupt Request 0
