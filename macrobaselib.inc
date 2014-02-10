@@ -1,6 +1,6 @@
 .IFNDEF	_MACROBASELIB__INCLUDED_
 .EQU	_MACROBASELIB__INCLUDED_ = 1
-.MESSAGE "Note: <macrobaselib.inc> (ver.1.0.1 beta) have included, only once!" 
+.MESSAGE "Note: <macrobaselib.inc> (ver.1.0.2 beta) have included, only once!" 
 ;=== BEGIN "macrobaselib.inc" ==============================================
 
 ; Библиотека базовых Макроопределений, 
@@ -53,13 +53,23 @@
 
 ; Инициализация Стека
 	.MACRO	STACKINIT
-		LDI	temp,	Low(RAMEND)	; Инициализация стека
-		OUT	SPL,	temp		; Обязательно!!!
+	.if	RAMEND>0x0000			; Только для МК имеющих SRAM...
 
-	.ifdef	SPH
-		LDI	temp,	High(RAMEND)
+		LDI	temp,	Low(RAMEND)	; адрес вершины стека = конец памяти (мл.байт)
+		.ifdef	SPL
+		OUT	SPL,	temp
+		.else
+		OUT	SP,	temp
+		.endif
+
+		.ifdef	SPH
+		LDI	temp,	High(RAMEND)	; адрес вершины стека = конец памяти (ст.байт)
 		OUT	SPH,	temp
-	.endif
+		.endif
+
+	.else
+	.WARNING "This device have not SRAM. Can not initialize Stack!"
+	.endif	//RAMEND
 	.ENDM
 
 
@@ -542,26 +552,26 @@
 	.ENDM
 
 
-/*
+
+
 ; Для примера: Версия DI HALT - более наглядная, но требует аж 4 временных регистра! (неоптимально)
 ; Памятка: портит содержимое регистров: R16,R17,R18,R19.
-	.MACRO	INC32M
-		LDS	R16,@0
-		LDS	R17,@0+1
-		LDS	R18,@0+2
-		LDS	R19,@0+3
-
-		SUBI	R16,(-1)	; инкремент четырехбайтного числа R19:R18:R17:R16
-		SBCI	R17,(-1)
-		SBCI	R18,(-1)
-		SBCI	R19,(-1)
-
-		STS	@0,R16
-		STS	@0+1,R17
-		STS	@0+2,R18
-		STS	@0+3,R19	
-	.ENDM
-*/
+;	.MACRO	INC32M
+;		LDS	R16,@0
+;		LDS	R17,@0+1
+;		LDS	R18,@0+2
+;		LDS	R19,@0+3
+;
+;		SUBI	R16,(-1)	; инкремент четырехбайтного числа R19:R18:R17:R16
+;		SBCI	R17,(-1)
+;		SBCI	R18,(-1)
+;		SBCI	R19,(-1)
+;
+;		STS	@0,R16
+;		STS	@0+1,R17
+;		STS	@0+2,R18
+;		STS	@0+3,R19	
+;	.ENDM
 
 
 
