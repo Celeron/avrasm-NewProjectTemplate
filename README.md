@@ -27,7 +27,7 @@ avrasm-NewProjectTemplate
 
 
 Используется, и требует подключения, нестандартная внешняя "Библиотека базовых Макроопределений (macrobaselib.inc)" - расширяющая стандартный набор ассемблерных инструкций микроконтроллеров Atmel AVR (8-bit AVR Instruction Set)... 
-Описание:	http://we.easyelectronics.ru/AVR/avrasm-biblioteka-bazovyh-makroopredeleniy-macrobaselibinc.html 
+Описание:	http://inventproject.info/blog/avrasm-biblioteka-bazovyh-makroopredelenij-macrobaselib-inc/
 Код скачать:	https://github.com/Celeron/avrasm-macrobaselib 
 
 
